@@ -28,11 +28,11 @@ node -e "console.log(process.platform)"
 
 - 輸出 `darwin` 或 `linux` → 跑：
   ```bash
-  curl -fsSL https://ayya5168.github.io/ai-workshop/install.sh | bash
+  curl -fsSL https://raw.githubusercontent.com/ayya5168/ai-workshop/main/install.sh | bash
   ```
 - 輸出 `win32` → 跑（PowerShell）：
   ```powershell
-  irm https://ayya5168.github.io/ai-workshop/install.ps1 | iex
+  irm https://raw.githubusercontent.com/ayya5168/ai-workshop/main/install.ps1 | iex
   ```
 
 腳本會自動：
@@ -97,10 +97,10 @@ node -e "
 
 ```bash
 # macOS / Linux
-curl -fsSL https://ayya5168.github.io/ai-workshop/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/ayya5168/ai-workshop/main/install.sh | bash
 
 # Windows PowerShell
-irm https://ayya5168.github.io/ai-workshop/install.ps1 | iex
+irm https://raw.githubusercontent.com/ayya5168/ai-workshop/main/install.ps1 | iex
 ```
 
 ---

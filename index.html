@@ -162,17 +162,17 @@
 </div>
 
 <script>
-  const REPO_BASE = "https://ayya5168.github.io/ai-workshop";
+  const RAW_BASE = "https://raw.githubusercontent.com/ayya5168/ai-workshop/main";
 
   const variants = {
     mac: {
       label: "macOS / Linux",
-      cmd: `curl -fsSL ${REPO_BASE}/install.sh | bash`,
+      cmd: `curl -fsSL ${RAW_BASE}/install.sh | bash`,
       railwayInstall: "brew install railway"
     },
     windows: {
       label: "Windows",
-      cmd: `irm ${REPO_BASE}/install.ps1 | iex`,
+      cmd: `irm ${RAW_BASE}/install.ps1 | iex`,
       railwayInstall: "winget install Railway.Railway"
     }
   };
