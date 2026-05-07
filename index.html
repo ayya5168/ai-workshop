@@ -116,7 +116,7 @@
 <div class="wrap">
 
   <h1>Antigravity 一鍵設定</h1>
-  <p class="subtitle">安裝 <code>superpowers</code> + <code>GitHub MCP</code> + <code>Railway MCP</code></p>
+  <p class="subtitle">安裝 <code>superpowers</code> + <code>Railway MCP</code></p>
 
   <div class="os-bar">
     偵測到你的系統:
@@ -138,11 +138,10 @@
   </div>
 
   <div class="step">
-    <div class="step-title"><span class="step-num">3</span>照 terminal 的指示完成 3 個手動步驟</div>
+    <div class="step-title"><span class="step-num">3</span>照 terminal 的指示完成 2 個手動步驟</div>
     <div class="followup">
       <ol>
-        <li>到 <a href="https://github.com/settings/tokens" target="_blank">GitHub Settings → Tokens</a> 建 PAT，scopes 勾 <code>repo</code>, <code>read:org</code>, <code>read:user</code>。編輯 <code id="cfgPath"></code>，把 <code>YOUR_GITHUB_PAT</code> 換成 token</li>
-        <li>裝 Railway CLI 並登入: <code id="railwayInstall"></code> → <code>railway login</code></li>
+        <li>裝 Railway CLI 並登入: <code id="railwayInstall"></code> → <code>railway login</code>（會開瀏覽器授權）</li>
         <li><strong>完全關掉 Antigravity 再打開</strong>（不是 reload window）</li>
       </ol>
     </div>
@@ -154,7 +153,7 @@
       <ul>
         <li>terminal 找不到 <code>gemini</code> → 請確認從 Antigravity 內建 terminal 開（不是系統 terminal）</li>
         <li>npm 裝 railway 報 <code>EACCES</code> → macOS 改用 <code>brew install railway</code>；Windows 用 <code>winget install Railway.Railway</code></li>
-        <li>PAT scope 不確定 → <code>repo</code>, <code>read:org</code>, <code>read:user</code> 三個就夠</li>
+        <li><code>railway login</code> 沒反應 → 確認瀏覽器有跳出授權頁；沒跳就手動開 <code>railway login --browserless</code> 用 device code 模式</li>
         <li>裝完看不到 server → 一定要「整個 quit」Antigravity，reload window 不會重讀 MCP 設定</li>
       </ul>
     </details>
@@ -169,13 +168,11 @@
     mac: {
       label: "macOS / Linux",
       cmd: `curl -fsSL ${REPO_BASE}/install.sh | bash`,
-      cfgPath: "~/.gemini/antigravity/mcp_config.json",
       railwayInstall: "brew install railway"
     },
     windows: {
       label: "Windows",
       cmd: `irm ${REPO_BASE}/install.ps1 | iex`,
-      cfgPath: "%USERPROFILE%\\.gemini\\antigravity\\mcp_config.json",
       railwayInstall: "winget install Railway.Railway"
     }
   };
@@ -192,7 +189,6 @@
     const v = variants[current];
     document.getElementById("osLabel").textContent = v.label;
     document.getElementById("cmd").textContent = v.cmd;
-    document.getElementById("cfgPath").textContent = v.cfgPath;
     document.getElementById("railwayInstall").textContent = v.railwayInstall;
   }
 

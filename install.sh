@@ -34,36 +34,26 @@ const p = process.argv[2];
 const raw = fs.readFileSync(p, 'utf8').trim() || '{}';
 const c = JSON.parse(raw);
 c.mcpServers = c.mcpServers || {};
-c.mcpServers.github = {
-  serverUrl: 'https://api.githubcopilot.com/mcp/',
-  headers: { Authorization: 'Bearer YOUR_GITHUB_PAT' }
-};
 c.mcpServers['railway-mcp-server'] = {
   command: 'npx',
   args: ['-y', '@railway/mcp-server']
 };
 fs.writeFileSync(p, JSON.stringify(c, null, 2) + '\n');
-console.log('    ✅ 已合併寫入 github + railway-mcp-server');
+console.log('    ✅ 已合併寫入 railway-mcp-server');
 NODE
 
 cat <<POST
 
 ${C_GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ 安裝完成。還剩 3 個手動步驟（按順序做）:${C_OFF}
+✅ 安裝完成。還剩 2 個手動步驟（按順序做）:${C_OFF}
 
-1️⃣  建立 GitHub PAT
-    https://github.com/settings/tokens
-    scopes 勾: repo, read:org, read:user
-    編輯 ${CFG}
-    把 YOUR_GITHUB_PAT 換成 token
-
-2️⃣  Railway CLI + 登入
+1️⃣  Railway CLI + 登入
     macOS:  brew install railway
     其他:   npm install -g @railway/cli
     然後:   railway login
 
-3️⃣  完全關掉 Antigravity 再開（不是 reload）
+2️⃣  完全關掉 Antigravity 再開（不是 reload）
     Agent panel → ... → Manage MCP Servers
-    確認 github / railway-mcp-server 都列出來
+    確認 railway-mcp-server 列出來
 ${C_GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${C_OFF}
 POST

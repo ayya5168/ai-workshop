@@ -6,14 +6,12 @@ You are running inside Google Antigravity. The user pasted this repository URL b
 
 ## TL;DR for the agent
 
+No tokens, no API keys, zero secrets to manage.
+
 1. Detect OS via `node -e "console.log(process.platform)"`.
 2. Run the installer:
    - `darwin` / `linux`: `curl -fsSL https://ayya5168.github.io/ai-workshop/install.sh | bash`
    - `win32`: `irm https://ayya5168.github.io/ai-workshop/install.ps1 | iex`
-3. Ask user for GitHub PAT (link them to https://github.com/settings/tokens?type=beta, scopes: `repo`, `read:org`, `read:user`).
-4. Replace `Bearer YOUR_GITHUB_PAT` in `~/.gemini/antigravity/mcp_config.json` with their token (use file edit tool, don't echo token back).
-5. Tell them to install Railway CLI + `railway login` themselves (browser auth needed).
-6. Tell them to fully quit + reopen Antigravity (not reload).
-7. After they reopen, verify config integrity and report done.
-
-Token handling: never print the token back, never log it, only write it to the config file.
+3. Tell user to install Railway CLI + run `railway login` themselves (browser auth needed, you can't proxy it).
+4. Tell user to fully quit + reopen Antigravity (not reload window).
+5. After they reopen, verify config integrity (`railway-mcp-server` is in `~/.gemini/antigravity/mcp_config.json`) and `railway whoami` works. Report done.

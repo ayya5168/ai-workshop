@@ -46,16 +46,12 @@ const p = process.argv[2];
 const raw = fs.readFileSync(p, 'utf8').trim() || '{}';
 const c = JSON.parse(raw);
 c.mcpServers = c.mcpServers || {};
-c.mcpServers.github = {
-  serverUrl: 'https://api.githubcopilot.com/mcp/',
-  headers: { Authorization: 'Bearer YOUR_GITHUB_PAT' }
-};
 c.mcpServers['railway-mcp-server'] = {
   command: 'npx',
   args: ['-y', '@railway/mcp-server']
 };
 fs.writeFileSync(p, JSON.stringify(c, null, 2) + '\n');
-console.log('    OK: 已合併寫入 github + railway-mcp-server');
+console.log('    OK: 已合併寫入 railway-mcp-server');
 '@
 
 $tmpJs = Join-Path $env:TEMP "antigravity-mcp-merge-$(Get-Random).js"
@@ -65,20 +61,14 @@ Remove-Item $tmpJs -Force
 
 Write-Host ""
 Write-Ok  "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-Write-Ok  "✅ 安裝完成。還剩 3 個手動步驟（按順序做）:"
+Write-Ok  "✅ 安裝完成。還剩 2 個手動步驟（按順序做）:"
 Write-Host ""
-Write-Host "1️⃣  建立 GitHub PAT"
-Write-Host "    https://github.com/settings/tokens"
-Write-Host "    scopes 勾: repo, read:org, read:user"
-Write-Host "    編輯 $cfg"
-Write-Host "    把 YOUR_GITHUB_PAT 換成 token"
-Write-Host ""
-Write-Host "2️⃣  Railway CLI + 登入"
+Write-Host "1️⃣  Railway CLI + 登入"
 Write-Host "    winget install Railway.Railway"
 Write-Host "    或: npm install -g `@railway/cli"
 Write-Host "    然後: railway login"
 Write-Host ""
-Write-Host "3️⃣  完全關掉 Antigravity 再開（不是 reload）"
+Write-Host "2️⃣  完全關掉 Antigravity 再開（不是 reload）"
 Write-Host "    Agent panel → ... → Manage MCP Servers"
-Write-Host "    確認 github / railway-mcp-server 都列出來"
+Write-Host "    確認 railway-mcp-server 列出來"
 Write-Ok  "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
