@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Antigravity 一鍵設定</title>
+<style>
+  :root{
+    --bg:#0b0c10; --panel:#15171c; --border:#23262e;
+    --fg:#e8e9ed; --muted:#8a8f9b; --dim:#5a5f6a;
+    --accent:#7ab8ff; --accent-soft:rgba(122,184,255,.12);
+    --code-bg:#16181d; --success:#7be39c;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--fg);
+    font-family:-apple-system,"Segoe UI","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+    line-height:1.65; padding:4rem 1.5rem 6rem;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:680px;margin:0 auto}
+  h1{font-size:1.8rem;font-weight:600;margin:0 0 .35rem;letter-spacing:-0.015em}
+  .subtitle{color:var(--muted);margin:0 0 3rem;font-size:.95rem}
+  .subtitle code{background:var(--code-bg);padding:.1rem .4rem;border-radius:4px;font-size:.85em;color:var(--fg)}
+
+  .os-bar{
+    display:flex;align-items:center;gap:.6rem;
+    margin-bottom:2rem;font-size:.88rem;color:var(--muted);
+    flex-wrap:wrap;
+  }
+  .os-pill{
+    background:var(--accent-soft);color:var(--accent);
+    padding:.25rem .8rem;border-radius:999px;font-weight:500;
+    border:1px solid rgba(122,184,255,.2);
+  }
+  .os-switch{
+    background:none;border:0;padding:0;cursor:pointer;
+    color:var(--muted);text-decoration:underline;
+    font:inherit;
+  }
+  .os-switch:hover{color:var(--fg)}
+
+  .step{margin-bottom:2.25rem}
+  .step-title{
+    font-size:1.08rem;font-weight:600;
+    margin-bottom:.85rem;display:flex;align-items:center;gap:.6rem;
+  }
+  .step-num{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:1.6rem;height:1.6rem;border-radius:999px;
+    background:var(--accent);color:#0b0c10;
+    font-weight:700;font-size:.85rem;flex-shrink:0;
+  }
+  .step-body{padding-left:2.2rem;color:var(--muted);font-size:.92rem}
+
+  .codebox{
+    position:relative;background:var(--code-bg);
+    border:1px solid var(--border);border-radius:10px;
+    padding:1rem 5.5rem 1rem 1.1rem;
+    font-family:"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    font-size:.88rem;color:var(--fg);
+    overflow-x:auto;white-space:nowrap;
+    margin-bottom:.5rem;
+  }
+  .codebox code{font:inherit;color:inherit;background:none;padding:0}
+  .copy-btn{
+    position:absolute;top:.5rem;right:.5rem;
+    background:var(--border);color:var(--fg);
+    border:0;border-radius:6px;
+    padding:.45rem .85rem;font-size:.78rem;font-weight:600;
+    cursor:pointer;font-family:inherit;
+    transition:background .15s,color .15s,transform .08s;
+  }
+  .copy-btn:hover{background:#2f333d}
+  .copy-btn:active{transform:scale(.95)}
+  .copy-btn.copied{background:var(--success);color:#0b0c10}
+
+  .followup{
+    background:var(--panel);border:1px solid var(--border);
+    border-radius:10px;padding:1.25rem 1.5rem;margin-top:.85rem;
+  }
+  .followup ol{margin:0;padding-left:1.25rem;color:var(--muted);font-size:.9rem}
+  .followup li{margin-bottom:.6rem}
+  .followup li:last-child{margin-bottom:0}
+  .followup code{
+    background:var(--code-bg);padding:.1rem .4rem;border-radius:4px;
+    font-size:.85em;color:var(--fg);
+    font-family:"SF Mono",Menlo,Consolas,monospace;
+  }
+  .followup a{color:var(--accent);text-decoration:none}
+  .followup a:hover{text-decoration:underline}
+  .followup strong{color:var(--fg);font-weight:500}
+
+  .footer{
+    margin-top:4rem;padding-top:2rem;
+    border-top:1px solid var(--border);
+    font-size:.85rem;color:var(--dim);
+  }
+  .footer details summary{cursor:pointer;color:var(--muted);user-select:none}
+  .footer details summary:hover{color:var(--fg)}
+  .footer details[open] summary{color:var(--fg);margin-bottom:.75rem}
+  .footer ul{margin:0;padding-left:1.25rem;color:var(--muted)}
+  .footer ul li{margin-bottom:.4rem}
+  .footer code{background:var(--code-bg);padding:.1rem .4rem;border-radius:4px;color:var(--fg);font-size:.85em}
+
+  @media (max-width:480px){
+    body{padding:2.5rem 1rem 4rem}
+    h1{font-size:1.5rem}
+    .codebox{font-size:.78rem;padding:.85rem 5rem .85rem .85rem}
+    .step-body{padding-left:0;margin-top:.25rem}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Antigravity 一鍵設定</h1>
+  <p class="subtitle">安裝 <code>superpowers</code> + <code>GitHub MCP</code> + <code>Railway MCP</code></p>
+
+  <div class="os-bar">
+    偵測到你的系統:
+    <span class="os-pill" id="osLabel">…</span>
+    <button class="os-switch" id="osSwitch">改用其他系統</button>
+  </div>
+
+  <div class="step">
+    <div class="step-title"><span class="step-num">1</span>在 Antigravity 內建 terminal 貼上這行</div>
+    <div class="codebox">
+      <code id="cmd"></code>
+      <button class="copy-btn" id="copyBtn">複製</button>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-title"><span class="step-num">2</span>按 Enter 等它跑完</div>
+    <div class="step-body">大約 30 秒。期間會自動安裝 Superpowers 並寫入 MCP 設定檔。</div>
+  </div>
+
+  <div class="step">
+    <div class="step-title"><span class="step-num">3</span>照 terminal 的指示完成 3 個手動步驟</div>
+    <div class="followup">
+      <ol>
+        <li>到 <a href="https://github.com/settings/tokens" target="_blank">GitHub Settings → Tokens</a> 建 PAT，scopes 勾 <code>repo</code>, <code>read:org</code>, <code>read:user</code>。編輯 <code id="cfgPath"></code>，把 <code>YOUR_GITHUB_PAT</code> 換成 token</li>
+        <li>裝 Railway CLI 並登入: <code id="railwayInstall"></code> → <code>railway login</code></li>
+        <li><strong>完全關掉 Antigravity 再打開</strong>（不是 reload window）</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="footer">
+    <details>
+      <summary>常見問題</summary>
+      <ul>
+        <li>terminal 找不到 <code>gemini</code> → 請確認從 Antigravity 內建 terminal 開（不是系統 terminal）</li>
+        <li>npm 裝 railway 報 <code>EACCES</code> → macOS 改用 <code>brew install railway</code>；Windows 用 <code>winget install Railway.Railway</code></li>
+        <li>PAT scope 不確定 → <code>repo</code>, <code>read:org</code>, <code>read:user</code> 三個就夠</li>
+        <li>裝完看不到 server → 一定要「整個 quit」Antigravity，reload window 不會重讀 MCP 設定</li>
+      </ul>
+    </details>
+  </div>
+
+</div>
+
+<script>
+  const REPO_BASE = "https://ayya5168.github.io/ai-workshop";
+
+  const variants = {
+    mac: {
+      label: "macOS / Linux",
+      cmd: `curl -fsSL ${REPO_BASE}/install.sh | bash`,
+      cfgPath: "~/.gemini/antigravity/mcp_config.json",
+      railwayInstall: "brew install railway"
+    },
+    windows: {
+      label: "Windows",
+      cmd: `irm ${REPO_BASE}/install.ps1 | iex`,
+      cfgPath: "%USERPROFILE%\\.gemini\\antigravity\\mcp_config.json",
+      railwayInstall: "winget install Railway.Railway"
+    }
+  };
+
+  function detectOS() {
+    const ua = (navigator.userAgent || "").toLowerCase();
+    if (ua.includes("win")) return "windows";
+    return "mac";
+  }
+
+  let current = detectOS();
+
+  function render() {
+    const v = variants[current];
+    document.getElementById("osLabel").textContent = v.label;
+    document.getElementById("cmd").textContent = v.cmd;
+    document.getElementById("cfgPath").textContent = v.cfgPath;
+    document.getElementById("railwayInstall").textContent = v.railwayInstall;
+  }
+
+  document.getElementById("osSwitch").addEventListener("click", () => {
+    current = current === "mac" ? "windows" : "mac";
+    render();
+  });
+
+  document.getElementById("copyBtn").addEventListener("click", async (e) => {
+    const btn = e.currentTarget;
+    const txt = document.getElementById("cmd").textContent;
+    try {
+      await navigator.clipboard.writeText(txt);
+      btn.textContent = "已複製 ✓";
+      btn.classList.add("copied");
+      setTimeout(() => {
+        btn.textContent = "複製";
+        btn.classList.remove("copied");
+      }, 1800);
+    } catch {
+      btn.textContent = "複製失敗";
+    }
+  });
+
+  render();
+</script>
+</body>
+</html>
