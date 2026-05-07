@@ -1,4 +1,4 @@
-# Antigravity 一鍵安裝: superpowers + GitHub MCP + Railway MCP (Windows PowerShell)
+# Antigravity 一鍵安裝: superpowers + Railway MCP (Windows PowerShell)
 $ErrorActionPreference = 'Stop'
 
 function Write-Step($msg) { Write-Host $msg -ForegroundColor Cyan }
@@ -6,27 +6,37 @@ function Write-Ok($msg)   { Write-Host $msg -ForegroundColor Green }
 function Write-Warn($msg) { Write-Host $msg -ForegroundColor Yellow }
 function Write-Err($msg)  { Write-Host $msg -ForegroundColor Red }
 
-Write-Step "==> [1/3] 檢查依賴 (gemini, node)"
-foreach ($cmd in 'gemini','node') {
-  if (-not (Get-Command $cmd -ErrorAction SilentlyContinue)) {
-    Write-Err "❌ 缺少 $cmd，請從 Antigravity 內建 terminal 執行"
+Write-Step "==> [1/3] 檢查依賴 (node)"
+if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
+  Write-Err "❌ 缺少 node。請先裝 Node.js (https://nodejs.org)"
+  exit 1
+}
+
+Write-Step "==> [2/3] 安裝 Superpowers"
+$spDir = Join-Path $env:USERPROFILE '.gemini\extensions\superpowers'
+
+if (Get-Command gemini -ErrorAction SilentlyContinue) {
+  Write-Host "    使用 gemini CLI 安裝..."
+  try { & gemini extensions install https://github.com/obra/superpowers 2>$null } catch {}
+  if (-not (Test-Path "$spDir\.git")) {
+    try { & gemini extensions update superpowers 2>$null } catch {}
+  }
+}
+
+if (-not (Test-Path "$spDir\.git")) {
+  if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
+    Write-Err "❌ 缺少 git，無法 fallback 安裝 Superpowers"
     exit 1
   }
+  Write-Host "    git clone 到 $spDir ..."
+  New-Item -ItemType Directory -Force -Path (Split-Path $spDir -Parent) | Out-Null
+  & git clone --depth 1 https://github.com/obra/superpowers $spDir
+} else {
+  Write-Host "    Superpowers 已存在，pull 最新版..."
+  & git -C $spDir pull --ff-only
 }
 
-Write-Step "==> [2/3] 安裝 Superpowers (Gemini extension)"
-$installed = $false
-try {
-  & gemini extensions install https://github.com/obra/superpowers 2>$null
-  $installed = $true
-} catch { }
-if (-not $installed) {
-  try { & gemini extensions update superpowers 2>$null } catch {
-    Write-Warn "⚠️  superpowers 安裝/更新跳過（可能已存在）"
-  }
-}
-
-Write-Step "==> [3/3] 寫入 MCP 設定"
+Write-Step "==> [3/3] 寫入 Railway MCP 設定"
 $cfg = Join-Path $env:USERPROFILE '.gemini\antigravity\mcp_config.json'
 $cfgDir = Split-Path $cfg -Parent
 New-Item -ItemType Directory -Force -Path $cfgDir | Out-Null
